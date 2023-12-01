@@ -60,16 +60,16 @@ const Record = (props) => (
                     <Link className="btn btn-link" to={props.record.externalLinks}>עוד מידע</Link>: "1 "
                 }
             </td>
-            <td>
-                <Link className="btn btn-link" to={`/edit/${props.record._id}`}>ערוך</Link> |
-                <button className="btn btn-link"
-                        onClick={() => {
-                            props.deleteRecord(props.record._id);
-                        }}
-                >
-                    מחק
-                </button>
-            </td>
+            {/*<td>*/}
+            {/*    <Link className="btn btn-link" to={`/edit/${props.record._id}`}>ערוך</Link> |*/}
+            {/*    <button className="btn btn-link"*/}
+            {/*            onClick={() => {*/}
+            {/*                props.deleteRecord(props.record._id);*/}
+            {/*            }}*/}
+            {/*    >*/}
+            {/*        מחק*/}
+            {/*    </button>*/}
+            {/*</td>*/}
         </tr>
         {props.expandedId === props.record._id && (
             <tr>
@@ -223,14 +223,14 @@ export default function RecordList() {
         getRecords();
     }, [records.length]);
 
-    async function deleteRecord(id) {
-        await fetch(API_URL + `/record/${id}`, {
-            method: "DELETE"
-        });
-
-        const newRecords = records.filter((el) => el._id !== id);
-        setRecords(newRecords);
-    }
+    // async function deleteRecord(id) {
+    //     await fetch(API_URL + `/record/${id}`, {
+    //         method: "DELETE"
+    //     });
+    //
+    //     const newRecords = records.filter((el) => el._id !== id);
+    //     setRecords(newRecords);
+    // }
 
     function find_by_name(student){
         if (!student) return null;
@@ -248,7 +248,7 @@ export default function RecordList() {
             return (
                 <Record
                     record={record}
-                    deleteRecord={() => deleteRecord(record._id)}
+                    // deleteRecord={() => deleteRecord(record._id)}
                     key={record._id}
                     teachers={teachers_ids}
                     students={students_ids}
@@ -329,7 +329,7 @@ export default function RecordList() {
                             {sortField === 'externalLinks' && sortOrder === 'desc' && <span>▾</span>}
                         </button>
                     </th>
-                    <th>פעולה</th>
+                    {/*<th>פעולה</th>*/}
                 </tr>
                 </thead>
                 <tbody>{recordList()}</tbody>
