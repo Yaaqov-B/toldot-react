@@ -195,16 +195,22 @@ export default function RecordList() {
         }
     });
 
-    const filteredItems = records.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())  ||
-        (item.alias && item.alias.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (item.birthPlace && item.birthPlace.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (item.deathPlace && item.deathPlace.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (item.books && item.books.filter((book) => book.title.toLowerCase().includes(searchTerm.toLowerCase())).length>0)
-        ||         (item.students && item.students.filter((student) => student && student.name? student.name.toLowerCase().includes(searchTerm.toLowerCase()) : false).length>0)
-        ||         (item.teachers && item.teachers.filter((teacher) => teacher && teacher.name? teacher.name.toLowerCase().includes(searchTerm.toLowerCase()): false).length>0)
+    function normalizedText(text){
+        if (text==null || text=="") return "";
+        return text.toLowerCase().replaceAll('"','').replaceAll('״','')
+    }
 
-    );
+    const filteredItems = records.filter((item) => {
+        const term = normalizedText(searchTerm);
+        return normalizedText(item.name).includes(term) ||
+            (item.alias && normalizedText(item.alias).includes(term)) ||
+            (item.birthPlace && normalizedText(item.birthPlace).includes(term)) ||
+            (item.deathPlace && normalizedText(item.deathPlace).includes(term)) ||
+            (item.deathPlace && normalizedText(item.deathPlace).includes(term))
+            // || (item.books && item.books.filter((book) => normalizedText(book.title).includes(term)).length > 0)
+            // || (item.students && item.students.filter((student) => student && student.name ? normalizedText(student.name).includes(term) : false).length > 0)
+            // || (item.teachers && item.teachers.filter((teacher) => teacher && teacher.name ? normalizedText(teacher.name).includes(term) : false).length > 0)
+    })
     // This method fetches the records from the database.
     useEffect(() => {
         async function getRecords() {
