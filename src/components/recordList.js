@@ -56,8 +56,8 @@ const Record = (props) => (
                 }
             </td>
             <td>
-                {props.record.externalLinks ?
-                    <Link className="btn btn-link" to={props.record.externalLinks}>עוד מידע</Link>: "1 "
+                {props.record.externalLinks && props.record.externalLinks!=="-"?
+                    <Link className="btn btn-link" to={props.record.externalLinks} target="_blank">להרחבה</Link>: ""
                 }
             </td>
             {/*<td>*/}
@@ -196,7 +196,7 @@ export default function RecordList() {
     });
 
     function normalizedText(text){
-        if (text==null || text=="") return "";
+        if (text==null || text==="") return "";
         return text.toLowerCase().replaceAll('"','').replaceAll('״','')
     }
 
