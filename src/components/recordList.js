@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+    import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBox from "./search";
 import VisualGraph from "./visualGraph";
@@ -100,8 +100,24 @@ export default function RecordList() {
         'edges':[]
     });
 
-
     function setGraph(root){
+        const g = records.filter(r=> r.cc === root.cc)
+        const nodes = [];
+        const edges = [];
+        g.map(rabbi=>{
+            nodes.push({id: rabbi._id, label: rabbi.name, title: rabbi.died});
+            if(rabbi.teachers){
+                rabbi.teachers.map(teacher=>{edges.push({from: teacher._id, to: rabbi._id})})
+            }
+            if(rabbi.students){
+                rabbi.students.map(student=>{edges.push({from: rabbi._id, to: student._id})})
+            }
+        })
+        setElements({'nodes':nodes, 'edges':edges})
+
+    }
+
+    function setGraph2(root){
         const q = [];
         const visited = {};
         const nodes = [];
@@ -134,7 +150,6 @@ export default function RecordList() {
         }
         while(q.length>0){
             const rabbi = q.shift();
-            console.log(rabbi)
             if (!visited[rabbi._id]){
                 visited[rabbi._id] = true;
                 nodes.push({id: rabbi._id, label: rabbi.name, title: rabbi.died});
